@@ -41,38 +41,44 @@ const App = () => {
   return (
     <main className="min-h-screen flex items-center justify-center">
       <section className="flex flex-col items-center gap-8">
-        <h1 className="text-4xl">Try to guess the 4 digit Password</h1>
-        <input
-          type="text"
-          disabled={error}
-          value={inputPassword}
-          onChange={handleChange}
-          className="border text-center px-4 py-1 outline-none rounded-md"
-        />
-        <div className="flex items-center gap-4">
-          {arr.map((num, index) => (
-            <button
-              key={index}
+        {!correct && (
+          <>
+            <h1 className="text-4xl">Try to guess the 4 digit Password</h1>
+            <input
+              type="text"
               disabled={error}
-              onClick={() => handleClick(num)}
-              className="border px-4 py-2 rounded-full cursor-pointer disabled:bg-gray-50/30"
-            >
-              {num}
-            </button>
-          ))}
-        </div>
+              value={inputPassword}
+              onChange={handleChange}
+              className="border text-center px-4 py-1 outline-none rounded-md"
+            />
+            <div className="grid grid-cols-3 gap-4">
+              {arr.map((num, index) => (
+                <button
+                  key={index}
+                  disabled={error}
+                  onClick={() => handleClick(num)}
+                  className={`border px-4 py-2 rounded-full hover:bg-gray-50/10 transition-colors cursor-pointer disabled:bg-gray-50/30 ${
+                    num === 0 && "col-start-2"
+                  }`}
+                >
+                  {num}
+                </button>
+              ))}
+            </div>
+          </>
+        )}
         {correct === null ? (
           ""
         ) : (
           <div>{correct ? "Correct password" : "Wrong password try again"}</div>
         )}
 
-        {correct === false && (
+        {(correct || error) && (
           <button
             className="border px-4 py-2 rounded-md cursor-pointer"
             onClick={handleReset}
           >
-            Try again
+            {correct ? "Play" : "Try"} again
           </button>
         )}
       </section>
