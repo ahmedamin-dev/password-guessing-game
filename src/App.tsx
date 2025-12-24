@@ -16,14 +16,17 @@ const App = () => {
   const [password, setPassword] = useState(() => generatePassword());
   const [correct, setCorrect] = useState<boolean | null>(null);
   const [error, setError] = useState<boolean>(false);
+  const [reveal, setReveal] = useState<boolean>(false);
 
   console.log(password);
 
   const handleClick = (num: number | string) => {
     if (typeof num === "number") {
       setInputPassword((prev) => (prev += String(num)));
-    } else {
+    } else if (num === "DELETE") {
       setInputPassword((prev) => prev.slice(0, -1));
+    } else {
+      setReveal(true);
     }
   };
 
@@ -34,7 +37,10 @@ const App = () => {
   const handleReset = () => {
     setError(false);
     setCorrect(null);
-    setPassword(generatePassword());
+    setReveal(false);
+    if (correct) {
+      setPassword(generatePassword());
+    }
   };
 
   useEffect(() => {
@@ -67,7 +73,9 @@ const App = () => {
               onChange={handleChange}
               className="border text-center px-4 py-1 outline-none rounded-md"
             />
-            <div>{password}</div>
+
+            {reveal && <div>{`You Password is: ${password}`}</div>}
+
             <div className="grid grid-cols-3 gap-4">
               {arr.map((num, index) => (
                 <button
