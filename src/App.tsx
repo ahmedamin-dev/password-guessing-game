@@ -13,12 +13,10 @@ const generatePassword = () => {
 
 const App = () => {
   const [inputPassword, setInputPassword] = useState<string>("");
-  const [password, setPassword] = useState(() => generatePassword());
+  const [password, setPassword] = useState(generatePassword);
   const [correct, setCorrect] = useState<boolean | null>(null);
   const [error, setError] = useState<boolean>(false);
   const [reveal, setReveal] = useState<boolean>(false);
-
-  console.log(password);
 
   const handleClick = (num: number | string) => {
     if (typeof num === "number") {
